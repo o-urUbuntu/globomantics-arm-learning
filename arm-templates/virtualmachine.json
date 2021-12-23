@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "adminPassword": {
-            "type": "secureString",
+            "type": "String",
             "metadata": {
                 "description": "Enter the password for the admin account on this machine"
             }
