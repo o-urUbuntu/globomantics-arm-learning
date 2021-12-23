@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  resource-group-name: rg-githubactions
-  loc: North Central US
-  subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  resource_group_name: rg-githubactions
+  location: North Central US
+  subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
   armDeploy:
@@ -23,36 +23,40 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Azure Resource Group ${{ env.resource-group-name }}
+      - name: Deploy Resource Group ${{ env.resource_group_name }}
         uses: Azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionID: ${{ env.subscriptionID }}
-          region: "${{ env.loc }}"
+          subscriptionId: ${{ env.subscriptionId }}
+          region: "${{ env.location }}"
           template: ./arm-templates/resourcegroup.json
-          deploymentName: ${{ env.resource-group-name }}
+          parameters:
+            location="${{ env.location }}"
+            resourceGroupName=${{ env.resource_group_name }}
+          deploymentName: ${{ env.resource_group_name }}
 
-      - name: Deploy Storage account
+      - name: Deploy Storage Account
         uses: Azure/arm-deploy@v1
+        id: storageAccountDeploy
         with:
           scope: resourcegroup
-          resourceGroupName: ${{ env.resource-group-name }}
-          subscriptionID: ${{ env.subscriptionID }}
+          resourceGroupName: ${{ env.resource_group_name }}
+          subscriptionId: ${{ env.subscriptionId }}
           template: ./arm-templates/storageaccount.json
-          parameters:
+          parameters: 
             sku=Standard_LRS
-            storageaccountname=globostg2349
-            location= "${{ env.loc }}"
-          deploymentMode: Incremental
+            storageAccountName=globostg002
+            location="${{ env.location }}"
+          deploymentMode: incremental
 
       - name: Deploy Virtual Machine
         uses: Azure/arm-deploy@v1
         with:
           scope: resourcegroup
-          resourceGroupName: ${{ env.resource-group-name }}
-          subscriptionId: ${{ env.subscriptionID }}
+          resourceGroupName: ${{ env.resource_group_name }}
+          subscriptionId: ${{ env.subscriptionId }}
           template: ./arm-templates/virtualmachine.json
           parameters: 
             adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
-            location= "${{ env.loc }}"
+            location="${{ env.location }}"
           deploymentMode: incremental
