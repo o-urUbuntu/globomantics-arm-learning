@@ -23,8 +23,11 @@ jobs:
         with:
           scope: subscription
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          region: North Central US
+          region: Canada Central
           template: ./arm-templates/resourcegroup.json
+          parameters:
+            location="Canada Central"
+            resourceGroupName=rg-githubactions
           deploymentName: rg-githubactions
 
       - name: Deploy Storage account
@@ -41,4 +44,13 @@ jobs:
             location="North Central US"
           deploymentMode: Incremental
 
-      - run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri }}
+      - name: Deploy Virtual Machine
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          resourceGroupName: rg-githubactions
+          subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          template: ./arm-templates/virtualmachine.json
+          parameters:
+            adminPassword="My$ecurePassw0rd!"
+          deploymentMode: Incremental
