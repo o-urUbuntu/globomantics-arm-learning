@@ -42,6 +42,7 @@ jobs:
           parameters:
             sku=Standard_LRS
             storageaccountname=globostg2349
+            location= "Norht Central US"
           deploymentMode: Incremental
 
       - name: Deploy Virtual Machine
