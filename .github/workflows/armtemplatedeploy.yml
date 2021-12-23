@@ -8,7 +8,7 @@ on:
 
 env:
   resource-group-name: rg-githubactions
-  location: "North Central US"
+  location: North Central US
   subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
         with:
           scope: subscription
           subscriptionID: ${{ env.subscriptionID }}
-          region: ${{ env.location }}
+          region: "${{ env.location }}"
           template: ./arm-templates/resourcegroup.json
           deploymentName: ${{ env.resource-group-name }}
 
@@ -43,7 +43,7 @@ jobs:
           parameters:
             sku=Standard_LRS
             storageaccountname=globostg2349
-            location= ${{ env.location }}
+            location= "${{ env.location }}"
           deploymentMode: Incremental
 
       - name: Deploy Virtual Machine
@@ -55,5 +55,5 @@ jobs:
           template: ./arm-templates/virtualmachine.json
           parameters: 
             adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
-            location= ${{ env.location }}
+            location= "${{ env.location }}"
           deploymentMode: incremental
