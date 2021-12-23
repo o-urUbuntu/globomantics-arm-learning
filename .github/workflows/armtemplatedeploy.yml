@@ -23,11 +23,8 @@ jobs:
         with:
           scope: subscription
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          region: Canada Central
+          region: North Central US
           template: ./arm-templates/resourcegroup.json
-          parameters:
-            location="Canada Central"
-            resourceGroupName=rg-githubactions
           deploymentName: rg-githubactions
 
       - name: Deploy Storage account
