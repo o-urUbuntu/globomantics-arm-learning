@@ -46,8 +46,8 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: rg-githubactions
-          subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           template: ./arm-templates/virtualmachine.json
-          parameters:
-            adminPassword= ${{ secrets.AZURE_VM_UBUNTU }}
-          deploymentMode: Incremental
+          parameters: 
+            adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
+          deploymentMode: incremental

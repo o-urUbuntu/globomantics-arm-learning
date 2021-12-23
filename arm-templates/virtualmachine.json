@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "adminPassword": {
-            "type": "secureString",
+            "type": "securestring",
             "metadata": {
                 "description": "Enter the password for the admin account on this machine"
             }
@@ -15,7 +15,7 @@
         {
             "name": "ubuntuVM1-nsg",
             "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "2020-11-01",
+            "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
             "properties": {
                 "securityRules": [
@@ -39,7 +39,7 @@
         {
             "name": "ubuntuVM1-VirtualNetwork",
             "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2020-11-01",
+            "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups', 'ubuntuVM1-nsg')]"
@@ -69,7 +69,7 @@
         {
             "name": "ubuntuVM1-NetworkInterface",
             "type": "Microsoft.Network/networkInterfaces",
-            "apiVersion": "2020-11-01",
+            "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', 'ubuntuVM1-VirtualNetwork')]"
@@ -94,7 +94,7 @@
         {
             "name": "ubuntuVM1",
             "type": "Microsoft.Compute/virtualMachines",
-            "apiVersion": "2021-03-01",
+            "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', 'ubuntuVM1-NetworkInterface')]"
