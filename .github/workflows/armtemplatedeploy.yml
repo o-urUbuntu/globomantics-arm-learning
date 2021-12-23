@@ -106,7 +106,7 @@ jobs:
           template: ./arm-templates/storageaccount.json
           parameters: 
             sku=Standard_LRS
-            storageAccountName=globostg003
+            storageaccountname=globostg003
             location="${{ env.location }}"
           deploymentMode: incremental
 
