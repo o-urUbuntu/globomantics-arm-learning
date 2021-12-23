@@ -34,5 +34,8 @@ jobs:
           resourceGroupName: rg-githubactions
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           template: ./arm-templates/storageaccount.json
-          parameters: ./arm-templates/storageaccount.parameters.json
+          parameters: 
+            ./arm-templates/storageaccount.parameters.json
+            storageaccountname=globostg2348
+            location="Canada Central"
           deploymentMode: Incremental
