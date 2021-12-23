@@ -49,5 +49,5 @@ jobs:
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           template: ./arm-templates/virtualmachine.json
           parameters:
-            adminPassword="My$ecurePassw0rd!"
+            adminPassword= ${{ secrets.AZURE_VM_UBUNTU_PASSWORD}}
           deploymentMode: Incremental
