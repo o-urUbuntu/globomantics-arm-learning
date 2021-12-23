@@ -25,17 +25,23 @@ jobs:
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           region: North Central US
           template: ./arm-templates/resourcegroup.json
+          parameters:
+            location ="Canada Central"
+            resourceGroupName=""rg-githubactions"
           deploymentName: rg-githubactions
 
       - name: Deploy Storage account
         uses: Azure/arm-deploy@v1
+        id: storageAccountDeploy
         with:
           scope: resourcegroup
           resourceGroupName: rg-githubactions
           subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           template: ./arm-templates/storageaccount.json
-          parameters: 
-            ./arm-templates/storageaccount.parameters.json
-            storageaccountname=globostg2348
-            location="Canada Central"
+          parameters:
+            sku=Standard_LRS
+            storageaccountname=globostg2349
+            location="North Central US"
           deploymentMode: Incremental
+
+      - run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri }}
