@@ -6,6 +6,11 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  resource-group-name: rg-githubactions
+  location: "North Central US"
+  subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 jobs:
   armDeploy:
     runs-on: ubuntu-latest
@@ -18,36 +23,37 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Azure Resource Group rg-githucactions
+      - name: Deploy Azure Resource Group ${{ env.resource-group-name }}
         uses: Azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          region: North Central US
+          subscriptionID: ${{ env.subscriptionID }}
+          region: ${{ env.location }}
           template: ./arm-templates/resourcegroup.json
-          deploymentName: rg-githubactions
+          deploymentName: ${{ env.resource-group-name }}
 
       - name: Deploy Storage account
         uses: Azure/arm-deploy@v1
         id: storageAccountDeploy
         with:
           scope: resourcegroup
-          resourceGroupName: rg-githubactions
-          subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ env.resource-group-name }}
+          subscriptionID: ${{ env.subscriptionID }}
           template: ./arm-templates/storageaccount.json
           parameters:
             sku=Standard_LRS
             storageaccountname=globostg2349
-            location="North Central US"
+            location= ${{ env.location }}
           deploymentMode: Incremental
 
       - name: Deploy Virtual Machine
         uses: Azure/arm-deploy@v1
         with:
           scope: resourcegroup
-          resourceGroupName: rg-githubactions
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ env.resource-group-name }}
+          subscriptionId: ${{ env.subscriptionID }}
           template: ./arm-templates/virtualmachine.json
           parameters: 
             adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
+            location= ${{ env.location }}
           deploymentMode: incremental
