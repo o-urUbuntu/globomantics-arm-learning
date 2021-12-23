@@ -32,7 +32,7 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: rg-githubactions
-          subscriptions: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          subscriptionID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           template: ./arm-templates/storageaccount.json
           parameters: ./arm-templates/storageaccount.parameters.json
           deploymentMode: Incremental
