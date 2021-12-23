@@ -42,7 +42,7 @@ jobs:
           parameters:
             sku=Standard_LRS
             storageaccountname=globostg2349
-            location= "${{ env.loc }}"
+            location= "North Central US"
           deploymentMode: Incremental
 
       - name: Deploy Virtual Machine
