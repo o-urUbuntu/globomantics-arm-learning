@@ -26,7 +26,7 @@ jobs:
           region: North Central US
           template: ./arm-templates/resourcegroup.json
           parameters:
-            location ="Canada Central"
+            region ="Canada Central"
             resourceGroupName=""rg-githubactions"
           deploymentName: rg-githubactions
 
